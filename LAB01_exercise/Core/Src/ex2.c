@@ -5,6 +5,7 @@
  *      Author: Admin
  */
 #include "ex2.h"
+
 void init(){
 	HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, SET);
 	HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, SET);
