@@ -1,0 +1,4 @@
+ex7_8_9_10.c:9:6:clearAllClock	8	static
+ex7_8_9_10.c:27:6:setNumberOnClock	16	static
+ex7_8_9_10.c:73:6:clearNumberOnClock	16	static
+ex7_8_9_10.c:121:6:display	48	static

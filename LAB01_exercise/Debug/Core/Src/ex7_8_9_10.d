@@ -1,5 +1,5 @@
-Core/Src/ex7_8_9_10.o: ../Core/Src/ex7_8_9_10.c ../Core/Inc/main.h \
- ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
+Core/Src/ex7_8_9_10.o: ../Core/Src/ex7_8_9_10.c ../Core/Inc/ex7_8_9_10.h \
+ ../Core/Inc/main.h ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h \
@@ -21,6 +21,8 @@ Core/Src/ex7_8_9_10.o: ../Core/Src/ex7_8_9_10.c ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h
+
+../Core/Inc/ex7_8_9_10.h:
 
 ../Core/Inc/main.h:
 
