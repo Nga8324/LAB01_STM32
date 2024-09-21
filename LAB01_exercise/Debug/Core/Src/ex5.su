@@ -1,0 +1,4 @@
+ex5.c:16:6:display1	8	static
+ex5.c:62:6:display2	8	static
+ex5.c:100:6:display7SEG_1	16	static
+ex5.c:198:6:display7SEG_2	16	static
