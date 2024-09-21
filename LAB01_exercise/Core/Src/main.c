@@ -91,10 +91,11 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  init();
+
   while (1)
   {
     /* USER CODE END WHILE */
+	  init();
 	  display();
 
 	  HAL_Delay(1000);
