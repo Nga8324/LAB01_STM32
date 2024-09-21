@@ -101,7 +101,7 @@ void display7SEG(int num)
 		HAL_GPIO_WritePin(SEG_6_GPIO_Port, SEG_6_Pin, GPIO_PIN_RESET);
 		break;
 	default:
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_All, SET);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_All, SET);
 		break;
 	}
 }
