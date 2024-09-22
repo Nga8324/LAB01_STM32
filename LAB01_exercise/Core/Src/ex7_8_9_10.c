@@ -119,18 +119,20 @@ int second_counter = 0;
 int minute_counter = 0;
 int hour_counter = 0;
 void display(){
+	// Calculate positions for the second, minute, and hour
     int second_pos = second_counter / 5;
     int minute_pos = minute_counter / 5;
     int hour_pos = hour_counter;
 
-    // ----------Hien thi kim giay------------
+    // ----------Display the second------------
+    // When second_counter reaches 60, increment minute_counter and reset second_counter
     if(second_counter >= 60) {
         minute_counter++;
         second_counter = 0;
 
-        // Xu ly led 0
+        // Handle the previous position of the second (to clear the old positon)
         int prev_second_pos = (second_pos - 1 + 12) % 12;
-
+        // Only clear the previous position of the second on clock if it is not overlapping with the minute and hour
         if((prev_second_pos != minute_pos) && (prev_second_pos != hour_pos)) {
             clearNumberOnClock(prev_second_pos);
         }
@@ -139,17 +141,20 @@ void display(){
     if((prev_second_pos != minute_pos) && (prev_second_pos != hour_pos)) {
         clearNumberOnClock(prev_second_pos);
     }
+    // Set the new position for the second
     setNumberOnClock(second_pos);
+    // Increment the second for the next call to the function
     second_counter++;
 
-    // ---------Hien thi kim phut----------
+    // ---------Display the minute----------
+    // When minute_counter reaches 60, increment hour_counter and reset minute_counter
     if(minute_counter >= 60) {
         hour_counter++;
         minute_counter = 0;
 
-        // Xu ly led 0
+        // Handle the previous position of the minute (to clear the old positon)
         int prev_minute_pos = (minute_pos - 1 + 12) % 12;
-
+        // Only clear the previous position of the minute on clock if it is not overlapping with the second and hour
         if((prev_minute_pos != second_pos) && (prev_minute_pos != hour_pos)) {
             clearNumberOnClock(prev_minute_pos);
         }
@@ -159,16 +164,17 @@ void display(){
     if((prev_minute_pos != second_pos) && (prev_minute_pos != hour_pos)) {
         clearNumberOnClock(prev_minute_pos);
     }
-
+    // Set the new position for the minute
     setNumberOnClock(minute_pos);
 
-    // ---------Hien thi kim gio------------
+    // ---------Display the hour------------
+    // When hour_counter reaches 12 (full roatation of clock), reset hour_counter
     if(hour_counter >= 12) {
         hour_counter = 0;
 
-        // Xu ly led 0
+        // Handle the previous position of the hour (to clear the old positon)
         int prev_hour_pos = (hour_pos - 1 + 12) % 12;
-
+        // Only clear the previous position of the hour on clock if it is not overlapping with the second and minute
         if((prev_hour_pos != minute_pos) && (prev_hour_pos != second_pos)) {
             clearNumberOnClock(prev_hour_pos);
         }
@@ -178,7 +184,7 @@ void display(){
     if((prev_hour_pos != minute_pos) && (prev_hour_pos != second_pos)) {
         clearNumberOnClock(prev_hour_pos);
     }
-
+    // Set the new position for the hour
     setNumberOnClock(hour_pos);
 }
 

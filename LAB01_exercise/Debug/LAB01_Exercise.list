@@ -433,6 +433,7 @@ void display(){
  80003b4:	b580      	push	{r7, lr}
  80003b6:	b08a      	sub	sp, #40	; 0x28
  80003b8:	af00      	add	r7, sp, #0
+	// Calculate positions for the second, minute, and hour
     int second_pos = second_counter / 5;
  80003ba:	4b71      	ldr	r3, [pc, #452]	; (8000580 <display+0x1cc>)
  80003bc:	681b      	ldr	r3, [r3, #0]
@@ -456,7 +457,8 @@ void display(){
  80003e0:	681b      	ldr	r3, [r3, #0]
  80003e2:	61fb      	str	r3, [r7, #28]
 
-    // ----------Hien thi kim giay------------
+    // ----------Display the second------------
+    // When second_counter reaches 60, increment minute_counter and reset second_counter
     if(second_counter >= 60) {
  80003e4:	4b66      	ldr	r3, [pc, #408]	; (8000580 <display+0x1cc>)
  80003e6:	681b      	ldr	r3, [r3, #0]
@@ -473,7 +475,7 @@ void display(){
  80003f8:	2200      	movs	r2, #0
  80003fa:	601a      	str	r2, [r3, #0]
 
-        // Xu ly led 0
+        // Handle the previous position of the second (to clear the old positon)
         int prev_second_pos = (second_pos - 1 + 12) % 12;
  80003fc:	6a7b      	ldr	r3, [r7, #36]	; 0x24
  80003fe:	f103 020b 	add.w	r2, r3, #11
@@ -488,7 +490,7 @@ void display(){
  8000414:	009b      	lsls	r3, r3, #2
  8000416:	1ad3      	subs	r3, r2, r3
  8000418:	61bb      	str	r3, [r7, #24]
-
+        // Only clear the previous position of the second on clock if it is not overlapping with the minute and hour
         if((prev_second_pos != minute_pos) && (prev_second_pos != hour_pos)) {
  800041a:	69ba      	ldr	r2, [r7, #24]
  800041c:	6a3b      	ldr	r3, [r7, #32]
@@ -530,9 +532,11 @@ void display(){
  800045e:	6978      	ldr	r0, [r7, #20]
  8000460:	f7ff ff32 	bl	80002c8 <clearNumberOnClock>
     }
+    // Set the new position for the second
     setNumberOnClock(second_pos);
  8000464:	6a78      	ldr	r0, [r7, #36]	; 0x24
  8000466:	f7ff feb7 	bl	80001d8 <setNumberOnClock>
+    // Increment the second for the next call to the function
     second_counter++;
  800046a:	4b45      	ldr	r3, [pc, #276]	; (8000580 <display+0x1cc>)
  800046c:	681b      	ldr	r3, [r3, #0]
@@ -540,7 +544,8 @@ void display(){
  8000470:	4a43      	ldr	r2, [pc, #268]	; (8000580 <display+0x1cc>)
  8000472:	6013      	str	r3, [r2, #0]
 
-    // ---------Hien thi kim phut----------
+    // ---------Display the minute----------
+    // When minute_counter reaches 60, increment hour_counter and reset minute_counter
     if(minute_counter >= 60) {
  8000474:	4b44      	ldr	r3, [pc, #272]	; (8000588 <display+0x1d4>)
  8000476:	681b      	ldr	r3, [r3, #0]
@@ -557,7 +562,7 @@ void display(){
  8000488:	2200      	movs	r2, #0
  800048a:	601a      	str	r2, [r3, #0]
 
-        // Xu ly led 0
+        // Handle the previous position of the minute (to clear the old positon)
         int prev_minute_pos = (minute_pos - 1 + 12) % 12;
  800048c:	6a3b      	ldr	r3, [r7, #32]
  800048e:	f103 020b 	add.w	r2, r3, #11
@@ -572,7 +577,7 @@ void display(){
  80004a4:	009b      	lsls	r3, r3, #2
  80004a6:	1ad3      	subs	r3, r2, r3
  80004a8:	613b      	str	r3, [r7, #16]
-
+        // Only clear the previous position of the minute on clock if it is not overlapping with the second and hour
         if((prev_minute_pos != second_pos) && (prev_minute_pos != hour_pos)) {
  80004aa:	693a      	ldr	r2, [r7, #16]
  80004ac:	6a7b      	ldr	r3, [r7, #36]	; 0x24
@@ -615,12 +620,13 @@ void display(){
  80004ee:	68f8      	ldr	r0, [r7, #12]
  80004f0:	f7ff feea 	bl	80002c8 <clearNumberOnClock>
     }
-
+    // Set the new position for the minute
     setNumberOnClock(minute_pos);
  80004f4:	6a38      	ldr	r0, [r7, #32]
  80004f6:	f7ff fe6f 	bl	80001d8 <setNumberOnClock>
 
-    // ---------Hien thi kim gio------------
+    // ---------Display the hour------------
+    // When hour_counter reaches 12 (full roatation of clock), reset hour_counter
     if(hour_counter >= 12) {
  80004fa:	4b24      	ldr	r3, [pc, #144]	; (800058c <display+0x1d8>)
  80004fc:	681b      	ldr	r3, [r3, #0]
@@ -631,7 +637,7 @@ void display(){
  8000504:	2200      	movs	r2, #0
  8000506:	601a      	str	r2, [r3, #0]
 
-        // Xu ly led 0
+        // Handle the previous position of the hour (to clear the old positon)
         int prev_hour_pos = (hour_pos - 1 + 12) % 12;
  8000508:	69fb      	ldr	r3, [r7, #28]
  800050a:	f103 020b 	add.w	r2, r3, #11
@@ -646,7 +652,7 @@ void display(){
  8000520:	009b      	lsls	r3, r3, #2
  8000522:	1ad3      	subs	r3, r2, r3
  8000524:	60bb      	str	r3, [r7, #8]
-
+        // Only clear the previous position of the hour on clock if it is not overlapping with the second and minute
         if((prev_hour_pos != minute_pos) && (prev_hour_pos != second_pos)) {
  8000526:	68ba      	ldr	r2, [r7, #8]
  8000528:	6a3b      	ldr	r3, [r7, #32]
@@ -689,7 +695,7 @@ void display(){
  800056a:	6878      	ldr	r0, [r7, #4]
  800056c:	f7ff feac 	bl	80002c8 <clearNumberOnClock>
     }
-
+    // Set the new position for the hour
     setNumberOnClock(hour_pos);
  8000570:	69f8      	ldr	r0, [r7, #28]
  8000572:	f7ff fe31 	bl	80001d8 <setNumberOnClock>
