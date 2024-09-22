@@ -37,11 +37,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_macro  00015709  00000000  00000000  00024980  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   00004bc5  00000000  00000000  0003a089  2**0
+ 17 .debug_line   00004bc7  00000000  00000000  0003a089  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    00079905  00000000  00000000  0003ec4e  2**0
+ 18 .debug_str    00079905  00000000  00000000  0003ec50  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000053  00000000  00000000  000b8553  2**0
+ 19 .comment      00000053  00000000  00000000  000b8555  2**0
                   CONTENTS, READONLY
  20 .debug_frame  00000d74  00000000  00000000  000b85a8  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
@@ -77,11 +77,11 @@ Disassembly of section .text:
  8000148:	08001284 	.word	0x08001284
 
 0800014c <init>:
- *
- *  Created on: Sep 21, 2024
  *      Author: Admin
  */
 #include "ex2.h"
+
+// Initialize for three leds to the off state
 void init(){
  800014c:	b580      	push	{r7, lr}
  800014e:	af00      	add	r7, sp, #0
@@ -115,12 +115,13 @@ int red_counter = 6;
 void display(){
  8000178:	b580      	push	{r7, lr}
  800017a:	af00      	add	r7, sp, #0
+//If green led is active, turn it on and decrement its counter
 	if(green_status == 1){
  800017c:	4b33      	ldr	r3, [pc, #204]	; (800024c <display+0xd4>)
  800017e:	681b      	ldr	r3, [r3, #0]
  8000180:	2b01      	cmp	r3, #1
  8000182:	d11b      	bne.n	80001bc <display+0x44>
-		  HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, RESET);
+		  HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, RESET); // Green led on
  8000184:	2200      	movs	r2, #0
  8000186:	2180      	movs	r1, #128	; 0x80
  8000188:	4831      	ldr	r0, [pc, #196]	; (8000250 <display+0xd8>)
@@ -131,31 +132,32 @@ void display(){
  8000192:	3b01      	subs	r3, #1
  8000194:	4a2f      	ldr	r2, [pc, #188]	; (8000254 <display+0xdc>)
  8000196:	6013      	str	r3, [r2, #0]
-
+		  // If green counter reaches 0
 		  if(green_counter == 0){
  8000198:	4b2e      	ldr	r3, [pc, #184]	; (8000254 <display+0xdc>)
  800019a:	681b      	ldr	r3, [r3, #0]
  800019c:	2b00      	cmp	r3, #0
  800019e:	d10d      	bne.n	80001bc <display+0x44>
-			  green_status = 0;
+			  green_status = 0; // Green led becomes inactive
  80001a0:	4b2a      	ldr	r3, [pc, #168]	; (800024c <display+0xd4>)
  80001a2:	2200      	movs	r2, #0
  80001a4:	601a      	str	r2, [r3, #0]
-			  green_counter = 3;
+			  green_counter = 3; // Reset green counter
  80001a6:	4b2b      	ldr	r3, [pc, #172]	; (8000254 <display+0xdc>)
  80001a8:	2203      	movs	r2, #3
  80001aa:	601a      	str	r2, [r3, #0]
-			  HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, SET);
+			  HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, SET); // Turn green led off
  80001ac:	2201      	movs	r2, #1
  80001ae:	2180      	movs	r1, #128	; 0x80
  80001b0:	4827      	ldr	r0, [pc, #156]	; (8000250 <display+0xd8>)
  80001b2:	f000 fc47 	bl	8000a44 <HAL_GPIO_WritePin>
-			  yellow_status = 1;
+			  yellow_status = 1; // Activate for yellow led
  80001b6:	4b28      	ldr	r3, [pc, #160]	; (8000258 <display+0xe0>)
  80001b8:	2201      	movs	r2, #1
  80001ba:	601a      	str	r2, [r3, #0]
 		  }
 	  }
+//If yellow led is active, turn it on and decrement its counter
 	  if(yellow_status == 1){
  80001bc:	4b26      	ldr	r3, [pc, #152]	; (8000258 <display+0xe0>)
  80001be:	681b      	ldr	r3, [r3, #0]
@@ -172,31 +174,32 @@ void display(){
  80001d2:	3b01      	subs	r3, #1
  80001d4:	4a21      	ldr	r2, [pc, #132]	; (800025c <display+0xe4>)
  80001d6:	6013      	str	r3, [r2, #0]
-
+	  	  // If yellow counter reaches 0
 	  	  if(yellow_counter == 0){
  80001d8:	4b20      	ldr	r3, [pc, #128]	; (800025c <display+0xe4>)
  80001da:	681b      	ldr	r3, [r3, #0]
  80001dc:	2b00      	cmp	r3, #0
  80001de:	d10d      	bne.n	80001fc <display+0x84>
-	  		  yellow_status = 0;
+	  		  yellow_status = 0; // Yellow led becomes inactive
  80001e0:	4b1d      	ldr	r3, [pc, #116]	; (8000258 <display+0xe0>)
  80001e2:	2200      	movs	r2, #0
  80001e4:	601a      	str	r2, [r3, #0]
-	  		  yellow_counter = 3;
+	  		  yellow_counter = 3; // Reset yellow counter
  80001e6:	4b1d      	ldr	r3, [pc, #116]	; (800025c <display+0xe4>)
  80001e8:	2203      	movs	r2, #3
  80001ea:	601a      	str	r2, [r3, #0]
-	  		  HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, SET);
+	  		  HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, SET); // Turn yellow led off
  80001ec:	2201      	movs	r2, #1
  80001ee:	2140      	movs	r1, #64	; 0x40
  80001f0:	4817      	ldr	r0, [pc, #92]	; (8000250 <display+0xd8>)
  80001f2:	f000 fc27 	bl	8000a44 <HAL_GPIO_WritePin>
-	  		  red_status = 1;
+	  		  red_status = 1; // Activate for red led
  80001f6:	4b1a      	ldr	r3, [pc, #104]	; (8000260 <display+0xe8>)
  80001f8:	2201      	movs	r2, #1
  80001fa:	601a      	str	r2, [r3, #0]
 	  	  }
 	   }
+// If red led is active, turn it on and decrement its counter
 	  if(red_status == 1){
  80001fc:	4b18      	ldr	r3, [pc, #96]	; (8000260 <display+0xe8>)
  80001fe:	681b      	ldr	r3, [r3, #0]
@@ -213,32 +216,32 @@ void display(){
  8000212:	3b01      	subs	r3, #1
  8000214:	4a13      	ldr	r2, [pc, #76]	; (8000264 <display+0xec>)
  8000216:	6013      	str	r3, [r2, #0]
-
+	  	  // If red counter reaches 0
 	  	  if(red_counter == 0){
  8000218:	4b12      	ldr	r3, [pc, #72]	; (8000264 <display+0xec>)
  800021a:	681b      	ldr	r3, [r3, #0]
  800021c:	2b00      	cmp	r3, #0
  800021e:	d112      	bne.n	8000246 <display+0xce>
-	  		  red_status = 0;
+	  		  red_status = 0; // Red led becomes inactive
  8000220:	4b0f      	ldr	r3, [pc, #60]	; (8000260 <display+0xe8>)
  8000222:	2200      	movs	r2, #0
  8000224:	601a      	str	r2, [r3, #0]
-	  		  red_counter = 6;
+	  		  red_counter = 6; // Reset red counter
  8000226:	4b0f      	ldr	r3, [pc, #60]	; (8000264 <display+0xec>)
  8000228:	2206      	movs	r2, #6
  800022a:	601a      	str	r2, [r3, #0]
-	  		  HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, SET);
+	  		  HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, SET); // Turn red led off
  800022c:	2201      	movs	r2, #1
  800022e:	2120      	movs	r1, #32
  8000230:	4807      	ldr	r0, [pc, #28]	; (8000250 <display+0xd8>)
  8000232:	f000 fc07 	bl	8000a44 <HAL_GPIO_WritePin>
-
-	  		  HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, RESET);
+	  		  // Restart the cycle by activating the green LED
+	  		  HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, RESET); // Turn green led on
  8000236:	2200      	movs	r2, #0
  8000238:	2180      	movs	r1, #128	; 0x80
  800023a:	4805      	ldr	r0, [pc, #20]	; (8000250 <display+0xd8>)
  800023c:	f000 fc02 	bl	8000a44 <HAL_GPIO_WritePin>
-	  		  green_status = 1;
+	  		  green_status = 1; // Active for green led
  8000240:	4b02      	ldr	r3, [pc, #8]	; (800024c <display+0xd4>)
  8000242:	2201      	movs	r2, #1
  8000244:	601a      	str	r2, [r3, #0]

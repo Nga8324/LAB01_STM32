@@ -1,2 +1,2 @@
-ex2.c:8:6:init	8	static
-ex2.c:22:6:display	8	static
+ex2.c:10:6:init	8	static
+ex2.c:27:6:display	8	static
