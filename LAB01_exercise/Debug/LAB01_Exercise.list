@@ -77,20 +77,20 @@ Disassembly of section .text:
  8000148:	080011f4 	.word	0x080011f4
 
 0800014c <init>:
- *      Author: Admin
  */
 
 #include "ex1.h"
 
+//Initialize the GPIO pins for two leds: Red led on, Yellow led off
 void init(){
  800014c:	b580      	push	{r7, lr}
  800014e:	af00      	add	r7, sp, #0
-	HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET); // Red led on
  8000150:	2200      	movs	r2, #0
  8000152:	2120      	movs	r1, #32
  8000154:	4804      	ldr	r0, [pc, #16]	; (8000168 <init+0x1c>)
  8000156:	f000 fc13 	bl	8000980 <HAL_GPIO_WritePin>
-	HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_SET); // Yellow led off
  800015a:	2201      	movs	r2, #1
  800015c:	2140      	movs	r1, #64	; 0x40
  800015e:	4802      	ldr	r0, [pc, #8]	; (8000168 <init+0x1c>)
@@ -112,20 +112,20 @@ void display(){
  8000174:	2b00      	cmp	r3, #0
  8000176:	d10a      	bne.n	800018e <display+0x22>
 	{
-		HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
+		HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin); // Toggle red led
  8000178:	2120      	movs	r1, #32
  800017a:	4809      	ldr	r0, [pc, #36]	; (80001a0 <display+0x34>)
  800017c:	f000 fc18 	bl	80009b0 <HAL_GPIO_TogglePin>
-		HAL_GPIO_TogglePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin);
+		HAL_GPIO_TogglePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin); // Toggle yellow led
  8000180:	2140      	movs	r1, #64	; 0x40
  8000182:	4807      	ldr	r0, [pc, #28]	; (80001a0 <display+0x34>)
  8000184:	f000 fc14 	bl	80009b0 <HAL_GPIO_TogglePin>
-		counter = 2;
+		counter = 2; // Reset the counter back to 2
  8000188:	4b04      	ldr	r3, [pc, #16]	; (800019c <display+0x30>)
  800018a:	2202      	movs	r2, #2
  800018c:	601a      	str	r2, [r3, #0]
 	}
-	counter --;
+	counter --; // Decrement the counter
  800018e:	4b03      	ldr	r3, [pc, #12]	; (800019c <display+0x30>)
  8000190:	681b      	ldr	r3, [r3, #0]
  8000192:	3b01      	subs	r3, #1
@@ -177,7 +177,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
     /* USER CODE BEGIN 3 */
 	  display();
  80001b8:	f7ff ffd8 	bl	800016c <display>
