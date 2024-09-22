@@ -6,7 +6,7 @@
  */
 #include "ex4.h"
 
-// SET = TAT, RESET = SANG
+// SET = on, RESET = off
 void display7SEG(int num)
 {
 	switch(num){
